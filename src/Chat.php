@@ -62,7 +62,7 @@ final class Chat
             return $data;
         }
 
-        $channel->update(['deletead_by' => $userId]);
+        $channel->update(['deleted_by' => $userId]);
         $channel->channelUser()->delete();
         $channel->delete();
 
