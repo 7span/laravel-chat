@@ -5,12 +5,12 @@ declare(strict_types=1);
 return [
     /*
     |--------------------------------------------------------------------------
-    | Laravel Chat Database Prefix
+    | Laravel Chat File Folder
     |--------------------------------------------------------------------------
     |
-    | Database table name prefix
+    | Chat file directory
     |
     */
-
-    'database_prefix' => env('CHAT_DATABASE_PREFIX', 'lc_h')
+    
+    'media_folder' => env('CHAT_MEDIA_FOLDER', 'image')
 ];

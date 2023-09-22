@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SevenSpan\LaravelChat;
 
+use Faker\Provider\Image;
+use SevenSpan\LaravelChat\Helpers\Helper;
 use SevenSpan\LaravelChat\Models\Channel;
 use SevenSpan\LaravelChat\Models\Message;
 use SevenSpan\LaravelChat\Models\ChannelUser;
@@ -19,7 +21,9 @@ final class Chat
 
     public function channelDetail(int $userId, int $channelId)
     {
-        $channel = Channel::with('channelUser.user')->where('id', $channelId)->first();
+        $channel = Channel::with('channelUser.user')->whereHas('channelUser', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->where('id', $channelId)->first();
         return $channel;
     }
 
@@ -79,6 +83,46 @@ final class Chat
 
     public function messageSend(int $userId, int $channelId, array $data)
     {
+        if (!isset($data['body']) && !isset($data['file'])) {
+
+            $error['errors']['message'][] = "The message body or file any one is should be required.";
+            return $error;
+        }
+
         $channel = $this->channelDetail($userId, $channelId);
+        if ($channel == null) {
+            $error['errors']['message'][] = "Channel not found.";
+            return $error;
+        }
+
+        $messageData = [
+            'channel_id' => $channel->id,
+            'sender_id' => $userId,
+            'created_by' => $userId,
+            'body' => isset($data['body']) ? $data['body'] : null
+        ];
+
+        if (isset($data['file'])) {
+            $file = Helper::fileUpload($data['file']);
+            if (isset($file['errors'])) {
+                return $file;
+            }
+            $messageData += $file;
+        }
+
+        Message::create($messageData);
+
+        // Added the unread message count
+        ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
+
+
+        $response['message'] = 'Message send successfully.';
+        return $response;
+    }
+
+    public function getFiles(int $userId, int $channelId, string $type = null)
+    {
+        $messages = Message::where('channel_id', $channelId)->where('type', '!=', 'text')->get();
+        dd($messages->toArray());
     }
 }

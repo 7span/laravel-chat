@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Message extends Model
 {
@@ -13,12 +14,21 @@ class Message extends Model
 
     protected $table = 'messages';
 
+    protected $appends = ['file_url'];
+
     public $fillable = [
-        'user_id',
+        'sender_id',
         'channel_id',
         'body',
-        'seen_at',
-        'react_count'
+        'disk',
+        'path',
+        'filename',
+        'size',
+        'mime_type',
+        'type',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
 
     protected $casts = [
@@ -45,5 +55,19 @@ class Message extends Model
     public function sender()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getFileUrlAttribute()
+    {
+        $url = null;
+        if ($this->type != 'text' && $this->disk != null) {
+            if ($this->disk == 'local') {
+                $url = Storage::disk('public')->url($this->path . '/' . $this->filename);
+            } elseif($this->disk == 's3'){
+                // $url = 
+            }
+        }
+
+        return $url;
     }
 }
