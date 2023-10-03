@@ -120,9 +120,32 @@ final class Chat
         return $response;
     }
 
-    public function getFiles(int $userId, int $channelId, string $type = null)
+    public function getFiles(int $userId, int $channelId, string $type = 'image', int $perPage = null)
     {
-        $messages = Message::where('channel_id', $channelId)->where('type', '!=', 'text')->get();
-        dd($messages->toArray());
+        if (!in_array($type, ['image', 'zip'])) {
+            $data['errors']['type'][] = 'The files types must be image or zip.';
+            return $data;
+        }
+        $messages = Message::where('channel_id', $channelId)->where('type', $type)->orderBy('id', 'DESC');
+        $messages = $perPage == null ? $messages->get() : $messages->paginate($perPage);
+        return $messages;
+    }
+
+    public function delete(int $userId, int $channelId, $messageId)
+    {
+        $message = Message::where('sender_id', $userId)->where('channel_id', $channelId)->find($messageId);
+
+        if ($message == null) {
+            $data['errors']['message'][] = 'Sorry, This message is not found.';
+            return $data;
+        }
+        if ($message->disk != null) {
+            Helper::fileDelete($message->disk, $message->path, $message->filename);
+        }
+
+        $message->delete();
+
+        $data['message'] = "Message deleted successfully.";
+        return $data;
     }
 }

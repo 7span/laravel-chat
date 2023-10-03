@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace SevenSpan\LaravelChat\Helpers;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class Helper
 {
@@ -47,5 +48,19 @@ class Helper
         }
 
         return $data;
+    }
+
+    public static function fileDelete($disk, $path, $fileName)
+    {
+        if ($disk == 'local') {
+            $file = public_path('storage/' . $path . '/' . $fileName);
+            if (File::exists($file)) {
+                unlink($file);
+                return true;
+            }
+        } elseif ($disk != 'local') {
+            Storage::disk('s3')->delete($path . '/' . $fileName);
+            return true;
+        }
     }
 }

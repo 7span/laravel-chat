@@ -63,8 +63,8 @@ class Message extends Model
         if ($this->type != 'text' && $this->disk != null) {
             if ($this->disk == 'local') {
                 $url = Storage::disk('public')->url($this->path . '/' . $this->filename);
-            } elseif($this->disk == 's3'){
-                // $url = 
+            } elseif ($this->disk != 'local') {
+                $url = 'https://' . $this->disk . '/' . $this->path . '/' . $this->filename;
             }
         }
 

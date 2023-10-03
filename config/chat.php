@@ -11,6 +11,5 @@ return [
     | Chat file directory
     |
     */
-    
     'media_folder' => env('CHAT_MEDIA_FOLDER', 'image')
 ];
