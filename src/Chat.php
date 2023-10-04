@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace SevenSpan\LaravelChat;
 
-use Faker\Provider\Image;
+use App\Models\User;
 use SevenSpan\LaravelChat\Helpers\Helper;
 use SevenSpan\LaravelChat\Models\Channel;
 use SevenSpan\LaravelChat\Models\Message;
 use SevenSpan\LaravelChat\Models\ChannelUser;
+use SevenSpan\LaravelChat\Models\MessageRead;
 
 final class Chat
 {
@@ -67,10 +68,38 @@ final class Chat
         }
 
         $channel->update(['deleted_by' => $userId]);
+
+        $this->channelMessageClear($userId, $channelId);
+
         $channel->channelUser()->delete();
         $channel->delete();
 
         $data['message'] = "Channel deleted successfully.";
+        return $data;
+    }
+
+    public function channelMessageClear(int $userId, int $channelId)
+    {
+        $channel = $this->channelDetail($userId, $channelId);
+
+        if ($channel == null) {
+            $data['errors']['message'][] = "Channel not found.";
+            return $data;
+        }
+
+        $messages = Message::where('channel_id', $channelId)->get();
+        $documents = $messages->whereNotNull('disk');
+        if ($documents->isNotEmpty()) {
+            foreach ($documents as $document) {
+                Helper::fileDelete($document->disk, $document->path, $document->filename);
+            }
+        }
+        MessageRead::where('channel_id', $channelId)->delete();
+        Message::where('channel_id', $channelId)->delete();
+        ChannelUser::where('channel_id', $channelId)->update(['unread_message_count' => 0]);
+
+        $data['message'] = "Channel message clear successfully.";
+
         return $data;
     }
 
@@ -110,11 +139,21 @@ final class Chat
             $messageData += $file;
         }
 
-        Message::create($messageData);
+        $message = Message::create($messageData);
 
         // Added the unread message count
         ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
 
+        // Added the entry into the unread message table
+        $channelUsers = $channel->channelUser->where('user_id', '!=', $userId);
+        foreach ($channelUsers as $channelUser) {
+            MessageRead::create([
+                'user_id' => $channelUser->user_id,
+                'message_id' => $message->id,
+                'channel_id' => $channelId,
+                'created_by' => $userId
+            ]);
+        }
 
         $response['message'] = 'Message send successfully.';
         return $response;
@@ -131,7 +170,7 @@ final class Chat
         return $messages;
     }
 
-    public function delete(int $userId, int $channelId, $messageId)
+    public function messageDelete(int $userId, int $channelId, $messageId)
     {
         $message = Message::where('sender_id', $userId)->where('channel_id', $channelId)->find($messageId);
 
@@ -143,9 +182,53 @@ final class Chat
             Helper::fileDelete($message->disk, $message->path, $message->filename);
         }
 
+        $this->messageReadDelete($userId, $channelId, (int)$messageId);
+
         $message->delete();
 
         $data['message'] = "Message deleted successfully.";
         return $data;
+    }
+
+    public function messageRead(int $userId, int $channelId, int $messageId)
+    {
+        $message = Message::select('id')->where('channel_id', $channelId)->find($messageId);
+
+        if ($message == null) {
+            $data['errors']['message'][] = "Message not found.";
+            return $data;
+        }
+
+        $unReadMessage = messageRead::where('user_id', $userId)->where('channel_id', $channelId)->where('message_id', '<=', $messageId)->whereNull('read_at');
+
+        ChannelUser::where("user_id", $userId)->where('channel_id', $channelId)->decrement('unread_message_count', $unReadMessage->count(), ['updated_by' => $userId]);
+
+        $unReadMessage->update(['read_at' => now()]);
+
+        $data['message'] = 'Messages read successfully.';
+        return $data;
+    }
+
+    public function messageReadDelete(int $userId, int $channelId, int $messageId)
+    {
+        $messageRead = messageRead::where('channel_id', $channelId)->where('message_id', $messageId)->whereNull('read_at');
+        $unReadMessage = $messageRead->first();
+
+        if ($unReadMessage) {
+            ChannelUser::where("user_id", $unReadMessage->user_id)->where('channel_id', $channelId)->decrement('unread_message_count', 1, ['updated_by' => $userId]);
+        }
+        $messageRead->delete();
+    }
+
+    public function usersList(int $userId, string $name = null, int $perPage = null)
+    {
+        $users = User::where('id', '!=', $userId);
+
+        if ($name) {
+            $users->where("name", 'LIKE', "{$name}%");
+        }
+
+        $users = $perPage ? $users->paginate($perPage) : $users->get();
+        return $users;
     }
 }

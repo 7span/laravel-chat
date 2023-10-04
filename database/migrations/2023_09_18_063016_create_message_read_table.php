@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('channel_id')->index();
             $table->unsignedBigInteger('message_id')->index();
-            $table->timestamp('read_at');
+            $table->timestamp('read_at')->nullable();
 
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
