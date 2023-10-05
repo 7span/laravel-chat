@@ -28,9 +28,9 @@ Before you get started, make sure you have the following prerequisites installed
 - Filter the documents and text messages.
 - Channel read and unread message count.
 - Delete the single message and clear the all chat history.
-- Allowing the update the channel
+- Allowing the update the channel.
 - Delete the channels.
-- Filter the user names
+- Filter the user names.
 
 ## <span id="installation">**Installation**</span>
 
