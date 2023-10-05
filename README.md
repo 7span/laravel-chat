@@ -1,6 +1,6 @@
 # Laravel Chat
 
-The Laravel Chat package streamlines the integrtion of the one to one chat, Send the document into the chat, Manage the read and unread messages count, Allowing the document uploading into the local and AWS s3 bucket.
+**The Laravel Chat package simplifies one-to-one and group chat integration, facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage**
 
 ## Index
 
@@ -23,15 +23,13 @@ Before you get started, make sure you have the following prerequisites installed
 
 ## <span id="features">**Features**</span>
 
-- Create the channel of the one to one chat.
-- Send the text message and document.
-- Filter the documents and text messages.
-- Channel read and unread message count.
-- Delete the single message and clear the all chat history.
-- Allowing the update the channel.
-- Delete the channels.
-- Filter the user names.
-
+- **One-to-One Chat Integration**
+- **Group Chat Integration**
+- **Document Sharing within Chats**
+- **Read and Unread Message Count Management**
+- **Document Upload Support for Local Storage**
+- **Document Upload Support for AWS S3 Storage**
+  
 ## <span id="installation">**Installation**</span>
 
 To install this package, use Composer:
@@ -48,11 +46,7 @@ To configure the package, publish the migration file with the following command:
 php artisan vendor:publish --provider="SevenSpan\LaravelChat\Providers\ChatServiceProvider"
 ```
 
-This command will publish the configuration file to your project's `config` directories, respectively.
-
-There will be four configuration files when you publish using this command:
-
-1. **[chat.php]**: Contains general configurations.
+This command will publish the configuration file chat.php to your project's config directories, respectively.
 
 If you have cached configurations locally, clear the config cache using one of these commands:
 
