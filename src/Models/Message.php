@@ -1,6 +1,6 @@
 <?php
 
-namespace SevenSpan\LaravelChat\Models;
+namespace SevenSpan\Chat\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

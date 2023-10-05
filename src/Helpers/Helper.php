@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SevenSpan\LaravelChat\Helpers;
+namespace SevenSpan\Chat\Helpers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;

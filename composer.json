@@ -1,19 +1,19 @@
 {
-    "name": "sevenspan/laravel-chat",
+    "name": "sevenspan/chat",
     "description": "It uses for the chat one to one user.",
     "keywords": [
         "laravel",
-        "laravel-chat",
+        "chat",
         "chat-system",
         "chat"
     ],
-    "homepage": "https://github.com/7span/laravel-chat",
+    "homepage": "https://github.com/7span/chat",
     "license": "MIT",
     "authors": [
         {
             "name": "Harshil Patanvadiya",
             "email": "harshil@7span.com",
-            "homepage": "https://github.com/7span/laravel-chat",
+            "homepage": "https://github.com/7span/chat",
             "role": "Developer"
         }
     ],
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SevenSpan\\LaravelChat\\": "src"
+            "SevenSpan\\Chat\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SevenSpan\\LaravelChat\\Tests\\": "tests"
+            "SevenSpan\\Chat\\Tests\\": "tests"
         }
     },
     "scripts": {},
@@ -39,10 +39,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "SevenSpan\\LaravelChat\\Providers\\ChatServiceProvider"
+                "SevenSpan\\Chat\\Providers\\ChatServiceProvider"
             ],
             "aliases": {
-                "Chat": "SevenSpan\\LaravelChat\\Facades\\Chat"
+                "Chat": "SevenSpan\\Chat\\Facades\\Chat"
             }
         }
     },

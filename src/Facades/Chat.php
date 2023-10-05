@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SevenSpan\LaravelChat\Facades;
+namespace SevenSpan\Chat\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

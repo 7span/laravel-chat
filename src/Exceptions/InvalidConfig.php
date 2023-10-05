@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SevenSpan\LaravelChat\Exceptions;
+namespace SevenSpan\Chat\Exceptions;
 
 use Exception;
 

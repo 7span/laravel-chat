@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SevenSpan\LaravelChat\Providers;
+namespace SevenSpan\Chat\Providers;
 
+use SevenSpan\Chat\Chat;
 use Illuminate\Support\ServiceProvider;
-use SevenSpan\LaravelChat\Exceptions\InvalidConfig;
-use SevenSpan\LaravelChat\Chat;
+use SevenSpan\Chat\Exceptions\InvalidConfig;
 
 class ChatServiceProvider extends ServiceProvider
 {

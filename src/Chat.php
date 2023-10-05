@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace SevenSpan\LaravelChat;
+namespace SevenSpan\Chat;
 
 use App\Models\User;
-use SevenSpan\LaravelChat\Helpers\Helper;
-use SevenSpan\LaravelChat\Models\Channel;
-use SevenSpan\LaravelChat\Models\Message;
-use SevenSpan\LaravelChat\Models\ChannelUser;
-use SevenSpan\LaravelChat\Models\MessageRead;
+use SevenSpan\Chat\Helpers\Helper;
+use SevenSpan\Chat\Models\Channel;
+use SevenSpan\Chat\Models\Message;
+use SevenSpan\Chat\Models\ChannelUser;
+use SevenSpan\Chat\Models\MessageRead;
 
 final class Chat
 {

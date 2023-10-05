@@ -43,7 +43,7 @@ composer require sevenspan/laravel-chat
 To configure the package, publish the migration file with the following command:
 
 ```bash
-php artisan vendor:publish --provider="SevenSpan\LaravelChat\Providers\ChatServiceProvider"
+php artisan vendor:publish --provider="SevenSpan\Chat\Providers\ChatServiceProvider"
 ```
 
 This command will publish the configuration file chat.php to your project's config directories, respectively.
