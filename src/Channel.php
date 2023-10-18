@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SevenSpan\Chat;
 
-use App\Models\User;
 use SevenSpan\Chat\Helpers\Helper;
 use SevenSpan\Chat\Models\Message;
 use SevenSpan\Chat\Models\ChannelUser;
@@ -101,28 +100,5 @@ class Channel
         $data['message'] = "Channel message clear successfully.";
 
         return $data;
-    }
-
-    public function getFiles(int $userId, int $channelId, string $type = 'image', int $perPage = null)
-    {
-        if (!in_array($type, ['image', 'zip'])) {
-            $data['errors']['type'][] = 'The files types must be image or zip.';
-            return $data;
-        }
-        $messages = Message::where('channel_id', $channelId)->where('type', $type)->orderBy('id', 'DESC');
-        $messages = $perPage == null ? $messages->get() : $messages->paginate($perPage);
-        return $messages;
-    }
-
-    public function usersList(int $userId, string $name = null, int $perPage = null)
-    {
-        $users = User::where('id', '!=', $userId);
-
-        if ($name) {
-            $users->where("name", 'LIKE', "{$name}%");
-        }
-
-        $users = $perPage ? $users->paginate($perPage) : $users->get();
-        return $users;
     }
 }
