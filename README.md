@@ -108,7 +108,7 @@ use SevenSpan\Chat\Facades\Channel;
 // $receiverId = 10; (Required)
 // $channelName = "Goverment project" (Required)
 
-Channel::detail($userId, $receiverId, $channelName);
+Channel::create($userId, $receiverId, $channelName);
 ```
 
 
@@ -124,7 +124,7 @@ use SevenSpan\Chat\Facades\Channel;
 // $receiverId = 10; (Required)
 // $channelName = "Goverment project" (Required)
 
-Channel::detail($userId, $receiverId, $channelName);
+Channel::update($userId, $receiverId, $channelName);
 ```
 
 ### 5. Delete Channel
