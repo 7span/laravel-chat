@@ -4,8 +4,12 @@
     "keywords": [
         "laravel",
         "chat",
+        "chat-package",
         "chat-system",
-        "chat"
+        "chat-application",
+        "composer",
+        "messaging-package",
+        "laravel-chat"
     ],
     "homepage": "https://github.com/7span/chat",
     "license": "MIT",
