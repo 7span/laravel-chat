@@ -13,7 +13,9 @@ final class Message
 {
     public function list(int $userId, int $channelId, int $perPage = null)
     {
-        $messages = MessageModel::with(['channel', 'sender'])->where('channel_id', $channelId)->orderBy('id', 'DESC');
+        $messages = MessageModel::with(['channel', 'sender'])
+                                ->where('channel_id', $channelId)
+                                ->orderBy('id', 'DESC');
         $messages = $perPage ? $messages->paginate($perPage) : $messages->get();
         return $messages;
     }

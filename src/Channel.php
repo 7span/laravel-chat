@@ -14,16 +14,20 @@ class Channel
 {
     public function list(int $userId, int $perPage = null)
     {
-        $channels = ChannelModel::select('channels.id', 'name', 'channel_id', 'unread_message_count')->join('channel_users', 'channels.id', '=', 'channel_users.channel_id')->where('channel_users.user_id', $userId)->orderBy('channel_users.unread_message_count', 'DESC');
+        $channels = ChannelModel::select('channels.id', 'name', 'channel_id', 'unread_message_count')
+                                    ->join('channel_users', 'channels.id', '=', 'channel_users.channel_id')
+                                    ->where('channel_users.user_id', $userId)
+                                    ->orderBy('channel_users.unread_message_count', 'DESC');
         $channels = $perPage ? $channels->paginate($perPage) : $channels->get();
         return $channels;
     }
 
     public function detail(int $userId, int $channelId)
     {
-        $channel = ChannelModel::with('channelUser.user')->whereHas('channelUser', function ($q) use ($userId) {
-            $q->where('user_id', $userId);
-        })->where('id', $channelId)->first();
+        $channel = ChannelModel::with('channelUser.user')
+                            ->whereHas('channelUser', function ($q) use ($userId) {
+                                $q->where('user_id', $userId);
+                            })->where('id', $channelId)->first();
 
         if (empty($channel)) {
             $data['errors']['channel'][] = 'Channel not found.';
@@ -94,11 +98,13 @@ class Channel
 
         $messages = Message::where('channel_id', $channelId)->get();
         $documents = $messages->whereNotNull('disk');
+
         if ($documents->isNotEmpty()) {
             foreach ($documents as $document) {
                 Helper::fileDelete($document->disk, $document->path, $document->filename);
             }
         }
+        
         MessageRead::where('channel_id', $channelId)->delete();
         Message::where('channel_id', $channelId)->delete();
         ChannelUser::where('channel_id', $channelId)->update(['unread_message_count' => 0]);
