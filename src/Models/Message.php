@@ -12,8 +12,6 @@ class Message extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'messages';
-
     protected $appends = ['file_url'];
 
     public $fillable = [

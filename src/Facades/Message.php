@@ -6,10 +6,10 @@ namespace SevenSpan\Chat\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Chat extends Facade
+class Message extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return 'Chat';
+        return 'Message';
     }
 }

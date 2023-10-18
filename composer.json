@@ -50,7 +50,9 @@
                 "SevenSpan\\Chat\\Providers\\ChatServiceProvider"
             ],
             "aliases": {
-                "Chat": "SevenSpan\\Chat\\Facades\\Chat"
+                "User": "SevenSpan\\Chat\\Facades\\User",
+                "Channel": "SevenSpan\\Chat\\Facades\\Channel",
+                "Message": "SevenSpan\\Chat\\Facades\\Message"
             }
         }
     },
