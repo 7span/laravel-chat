@@ -258,8 +258,15 @@ User::list($userId, $name, $perPage);
 
 ## <span id="contributing">Contributing</span>
 
-We welcome contributions from the community to improve and enhance this package. If you'd like to contribute, please follow our contribution guidelines.
+If you encounter any issues or would like to contribute to this package, we welcome contributions from the community to improve and enhance this package. If you'd like to contribute, please follow our contribution guidelines:
 
+- Fork this repository.
+- Clone the forked repository to your local machine.
+- Create a new branch for your feature or bug fix: git checkout -b feature/your-feature-name
+- Make your changes and commit them: git commit -m 'Add new feature'
+- Push your changes to your fork: git push origin feature/your-feature-name
+- Create a pull request to the original repository.
+  
 ## <span id="license">License</span>
 
 This package is open-source software licensed under the MIT License. Feel free to use, modify, and distribute it according to the terms of the license.
