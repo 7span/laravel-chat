@@ -64,10 +64,6 @@ php artisan migrate
 
 Once you have installed the package, you can start using its features in your Laravel application. Here's a brief overview of how to use some of the main features:
 
-``` php
-use SevenSpan\Chat\Facades\Channel;
-```
-
 ### 1. List Channels
 
 Use the `list` method to get all channels.
