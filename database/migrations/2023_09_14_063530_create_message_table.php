@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id')->index();
             $table->unsignedBigInteger('channel_id')->index();
             $table->text('body')->nullable();
-            $table->string('disk', 32)->nullable();
+            $table->string('disk', 64)->nullable();
             $table->string('path', 64)->nullable();
             $table->string('filename', 64)->nullable();
             $table->bigInteger('size')->nullable();

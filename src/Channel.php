@@ -24,6 +24,12 @@ class Channel
         $channel = ChannelModel::with('channelUser.user')->whereHas('channelUser', function ($q) use ($userId) {
             $q->where('user_id', $userId);
         })->where('id', $channelId)->first();
+
+        if (empty($channel)) {
+            $data['errors']['channel'][] = 'Channel not found.';
+            return $data;
+        }
+
         return $channel;
     }
 

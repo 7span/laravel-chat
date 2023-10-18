@@ -19,8 +19,8 @@ class ComposerStaticInit5e31203c50732deea847731f5bc1193e
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'SevenSpan\\LaravelChat\\Tests\\' => 28,
-            'SevenSpan\\LaravelChat\\' => 22,
+            'SevenSpan\\Chat\\Tests\\' => 21,
+            'SevenSpan\\Chat\\' => 15,
         ),
         'P' => 
         array (
@@ -55,11 +55,11 @@ class ComposerStaticInit5e31203c50732deea847731f5bc1193e
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'SevenSpan\\LaravelChat\\Tests\\' => 
+        'SevenSpan\\Chat\\Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
         ),
-        'SevenSpan\\LaravelChat\\' => 
+        'SevenSpan\\Chat\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
