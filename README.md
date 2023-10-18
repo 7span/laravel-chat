@@ -1,6 +1,6 @@
 # Laravel Chat
 
-**The Laravel Chat package simplifies one-to-one and group chat integration, facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage**
+The Laravel Chat package simplifies one-to-one and group chat integration, facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage
 
 ## Index
 
