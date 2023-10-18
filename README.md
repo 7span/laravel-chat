@@ -17,19 +17,19 @@
 Before you get started, make sure you have the following prerequisites installed:
 
 - PHP >= 8.1
-- Composer
+- Composer >= 2.0
 - Laravel >= 8.1
 - AWS API credentials (Optional)
 
 ## <span id="features">**Features**</span>
 
-- **One-to-One Chat Integration**
-- **Group Chat Integration**
-- **Document Sharing within Chats**
-- **Read and Unread Message Count Management**
-- **Document Upload Support for Local Storage**
-- **Document Upload Support for AWS S3 Storage**
-  
+- One-to-One Chat Integration
+- Group Chat Integration
+- Document Sharing within Chats
+- Read and Unread Message Count Management
+- Document Upload Support for Local Storage
+- Document Upload Support for AWS S3 Storage
+
 ## <span id="installation">**Installation**</span>
 
 To install this package, use Composer:
@@ -62,9 +62,9 @@ php artisan migrate
 
 ## <span id="credits">Credits</span>
 
-- [Hemratna Bhimani](https://github.com/hemratna)
+- [Harshil Patanvadiya](https://github.com/harshil-patanvadiya)
 - [Kajal Pandya](https://github.com/kajal98)
-- [Harshil Patanvadiya](https://github.com/harshil-7span)
+- [Hemratna Bhimani](https://github.com/hemratna)
 
 ## <span id="contributing">Contributing</span>
 

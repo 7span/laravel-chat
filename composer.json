@@ -1,6 +1,6 @@
 {
     "name": "sevenspan/chat",
-    "description": "It uses for the chat one to one user.",
+    "description": "The Laravel Chat package simplifies one-to-one and group chat integration, facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage",
     "keywords": [
         "laravel",
         "chat",
@@ -12,15 +12,23 @@
     "authors": [
         {
             "name": "Harshil Patanvadiya",
-            "email": "harshil@7span.com",
-            "homepage": "https://github.com/7span/chat",
+            "email": "harshilpatanvadiya55@gmail.com",
+            "homepage": "https://github.com/harshil-patanvadiya",
+            "role": "Developer"
+        },
+        {
+            "name": "Kajal Pandiya",
+            "email": "kjlkajal98@gmail.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Hemratna Bhimani",
+            "email": "hemratna.bhimani@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.1",
-        "aws/aws-sdk-php": "^3.281",
-        "league/flysystem-aws-s3-v3": "^3.16"
+        "php": "^8.1"
     },
     "autoload": {
         "psr-4": {
