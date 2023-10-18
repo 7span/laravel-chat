@@ -73,6 +73,3 @@ We welcome contributions from the community to improve and enhance this package.
 ## <span id="license">License</span>
 
 This package is open-source software licensed under the MIT License. Feel free to use, modify, and distribute it according to the terms of the license.
-
-> [!NOTE]
-> Future enhancements may include feature-wise plans and workspace-specific development.
