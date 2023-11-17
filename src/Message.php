@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace SevenSpan\Chat;
 
 use SevenSpan\Chat\Helpers\Helper;
+use SevenSpan\Chat\Events\MessageSent;
 use SevenSpan\Chat\Models\ChannelUser;
 use SevenSpan\Chat\Models\MessageRead;
+use SevenSpan\Chat\Events\MessageDelete;
 use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
@@ -14,8 +16,8 @@ final class Message
     public function list(int $userId, int $channelId, int $perPage = null)
     {
         $messages = MessageModel::with(['channel', 'sender'])
-                                ->where('channel_id', $channelId)
-                                ->orderBy('id', 'DESC');
+            ->where('channel_id', $channelId)
+            ->orderBy('id', 'DESC');
         $messages = $perPage ? $messages->paginate($perPage) : $messages->get();
         return $messages;
     }
@@ -52,6 +54,8 @@ final class Message
 
         $message = MessageModel::create($messageData);
 
+        broadcast(new MessageSent($channel->slug, $message))->toOthers();
+
         // Added the unread message count
         ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
 
@@ -83,7 +87,7 @@ final class Message
 
     public function delete(int $userId, int $channelId, $messageId)
     {
-        $message = MessageModel::where('sender_id', $userId)->where('channel_id', $channelId)->find($messageId);
+        $message = MessageModel::with('channel')->where('sender_id', $userId)->where('channel_id', $channelId)->find($messageId);
 
         if ($message == null) {
             $data['errors']['message'][] = 'Sorry, This message is not found.';
@@ -100,6 +104,8 @@ final class Message
             ChannelUser::where("user_id", $unReadMessage->user_id)->where('channel_id', $channelId)->decrement('unread_message_count', 1, ['updated_by' => $userId]);
         }
         $messageRead->delete();
+
+        broadcast(new MessageDelete($message->channel->slug, $message))->toOthers();
 
         $message->delete();
 

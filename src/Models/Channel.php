@@ -2,18 +2,21 @@
 
 namespace SevenSpan\Chat\Models;
 
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Channel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasSlug;
 
     protected $table = 'channels';
 
     public $fillable = [
         'name',
+        'slug',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -39,4 +42,11 @@ class Channel extends Model
     protected $relationship = [];
 
     protected $scopedFilters = [];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
 }
