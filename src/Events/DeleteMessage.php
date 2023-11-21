@@ -9,17 +9,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MessageDelete implements ShouldBroadcast
+class DeleteMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $channelSlug;
-    public $message;
-
-    public function __construct($channelSlug, Message $message)
-    {
-        $this->message = $message;
-        $this->channelSlug = $channelSlug;
+    public function __construct(
+        private $channelSlug,
+        public Message $message
+    ) {
     }
 
     public function broadcastOn()
@@ -30,6 +27,6 @@ class MessageDelete implements ShouldBroadcast
     // Event name
     public function broadcastAs()
     {
-        return 'message-delete';
+        return 'delete-message';
     }
 }

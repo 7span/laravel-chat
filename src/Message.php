@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace SevenSpan\Chat;
 
 use SevenSpan\Chat\Helpers\Helper;
-use SevenSpan\Chat\Events\MessageSent;
+use SevenSpan\Chat\Events\SendMessage;
 use SevenSpan\Chat\Models\ChannelUser;
 use SevenSpan\Chat\Models\MessageRead;
-use SevenSpan\Chat\Events\MessageDelete;
+use SevenSpan\Chat\Events\DeleteMessage;
 use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
@@ -54,7 +54,7 @@ final class Message
 
         $message = MessageModel::create($messageData);
 
-        broadcast(new MessageSent($channel->slug, $message))->toOthers();
+        broadcast(new SendMessage($channel->slug, $message))->toOthers();
 
         // Added the unread message count
         ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
@@ -105,7 +105,7 @@ final class Message
         }
         $messageRead->delete();
 
-        broadcast(new MessageDelete($message->channel->slug, $message))->toOthers();
+        broadcast(new DeleteMessage($message->channel->slug, $message))->toOthers();
 
         $message->delete();
 

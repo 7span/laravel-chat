@@ -1,32 +1,33 @@
 <?php
+// app/Events/MessageSent.php
 
 namespace SevenSpan\Chat\Events;
 
+use SevenSpan\Chat\Models\Message;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use SevenSpan\Chat\Channel;
 
-class ChannelCreate implements ShouldBroadcast
+class SendMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $channel;
-
-    public function __construct(Channel $channel)
-    {
-        $this->channel = $channel;
+    public function __construct(
+        public $channelSlug,
+        public Message $message
+    ) {
     }
 
     public function broadcastOn()
     {
-        return new Channel($this->channel);
+        return new Channel($this->channelSlug);
     }
 
     // Event name
     public function broadcastAs()
     {
-        return 'channel-create';
+        return 'send-message';
     }
 }

@@ -8,7 +8,7 @@ use SevenSpan\Chat\Helpers\Helper;
 use SevenSpan\Chat\Models\Message;
 use SevenSpan\Chat\Models\ChannelUser;
 use SevenSpan\Chat\Models\MessageRead;
-use SevenSpan\Chat\Events\ChannelCreate;
+use SevenSpan\Chat\Events\CreateChannel;
 use SevenSpan\Chat\Models\Channel as ChannelModel;
 
 class Channel
@@ -50,7 +50,7 @@ class Channel
         ChannelUser::create(['user_id' => $userId, 'channel_id' => $channel->id, 'created_by' => $userId]);
         ChannelUser::create(['user_id' => $receiverId, 'channel_id' => $channel->id, 'created_by' => $userId]);
 
-        broadcast(new ChannelCreate($channel))->toOthers();
+        broadcast(new CreateChannel($channel))->toOthers();
 
         $data['message'] = "Channel created successfully.";
         return $data;
