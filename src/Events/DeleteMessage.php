@@ -24,7 +24,6 @@ class DeleteMessage implements ShouldBroadcast
         return new Channel($this->channelSlug);
     }
 
-    // Event name
     public function broadcastAs()
     {
         return 'delete-message';

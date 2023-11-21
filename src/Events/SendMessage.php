@@ -1,5 +1,4 @@
 <?php
-// app/Events/MessageSent.php
 
 namespace SevenSpan\Chat\Events;
 
@@ -25,7 +24,6 @@ class SendMessage implements ShouldBroadcast
         return new Channel($this->channelSlug);
     }
 
-    // Event name
     public function broadcastAs()
     {
         return 'send-message';

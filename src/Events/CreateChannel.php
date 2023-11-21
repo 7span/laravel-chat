@@ -23,7 +23,6 @@ class CreateChannel implements ShouldBroadcast
         return new Channel($this->channel->slug);
     }
 
-    // Event name
     public function broadcastAs()
     {
         return 'create-channel';
