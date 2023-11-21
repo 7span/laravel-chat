@@ -14,13 +14,18 @@ class CreateChannel implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        public ChannelModal $channel
+        private ChannelModal $channel
     ) {
     }
 
     public function broadcastOn()
     {
         return new Channel($this->channel->slug);
+    }
+
+    public function broadcastWith()
+    {
+        return $this->channel->toArray();
     }
 
     public function broadcastAs()

@@ -15,13 +15,18 @@ class DeleteMessage implements ShouldBroadcast
 
     public function __construct(
         private $channelSlug,
-        public Message $message
+        private Message $message
     ) {
     }
 
     public function broadcastOn()
     {
         return new Channel($this->channelSlug);
+    }
+
+    public function broadcastWith()
+    {
+        return $this->message->toArray();
     }
 
     public function broadcastAs()

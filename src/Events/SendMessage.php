@@ -14,14 +14,19 @@ class SendMessage implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        public $channelSlug,
-        public Message $message
+        private $channelSlug,
+        private Message $message
     ) {
     }
 
     public function broadcastOn()
     {
         return new Channel($this->channelSlug);
+    }
+
+    public function broadcastWith()
+    {
+        return $this->message->toArray();
     }
 
     public function broadcastAs()
