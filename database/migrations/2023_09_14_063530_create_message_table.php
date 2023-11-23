@@ -30,7 +30,6 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
-            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
