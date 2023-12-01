@@ -60,9 +60,9 @@ class Channel
 
         broadcast(new CreateChannel($channel))->toOthers();
 
-        $data['message'] = "Channel created successfully.";
-        $data['data'] = $channel;
-        return $data;
+        $response['message'] = "Channel created successfully.";
+        $response['data'] = $channel;
+        return $response;
     }
 
     public function update(int $userId, int $channelId,  $channelName)
