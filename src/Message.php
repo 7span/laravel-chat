@@ -133,7 +133,7 @@ final class Message
         return $data;
     }
 
-    public function readAllMessages(int $userId, int $channelId)
+    public function readAll(int $userId, int $channelId)
     {
         $channelObj = new Channel();
         $channel = $channelObj->detail($userId, $channelId);
