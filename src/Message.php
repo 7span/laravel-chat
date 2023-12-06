@@ -60,7 +60,7 @@ final class Message
         ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
 
         // Added the entry into the unread message table
-        $channelUsers = $channel->channelUser->where('user_id', '!=', $userId);
+        $channelUsers = $channel->channelUsers->where('user_id', '!=', $userId);
         foreach ($channelUsers as $channelUser) {
             MessageRead::create([
                 'user_id' => $channelUser->user_id,
@@ -71,6 +71,7 @@ final class Message
         }
 
         $response['message'] = 'Message send successfully.';
+        $response['data'] = $message;
         return $response;
     }
 
@@ -129,6 +130,23 @@ final class Message
         $unReadMessage->update(['read_at' => now()]);
 
         $data['message'] = 'Messages read successfully.';
+        return $data;
+    }
+
+    public function readAll(int $userId, int $channelId)
+    {
+        $channelObj = new Channel();
+        $channel = $channelObj->detail($userId, $channelId);
+
+        if ($channel == null) {
+            $error['errors']['message'][] = "Channel not found.";
+            return $error;
+        }
+
+        ChannelUser::where('user_id', $userId)->where('channel_id', $channelId)->update(['unread_message_count' => 0]);
+
+        $data['message'] = "Messages read successfully.";
+
         return $data;
     }
 }
