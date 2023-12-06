@@ -16,7 +16,7 @@ class Channel
     public function list(int $userId = null, array $channelIds = [], int $perPage = null)
     {
         $channels = ChannelModel::select('channels.id', 'name', 'channel_id', 'unread_message_count')
-            ->join('channel_users', 'channels.id', '=', 'channel_users.channel_id');
+            ->join('channel_users', 'channels.id', '=', 'channel_users.channel_id')->with('channelUsers.user');
 
         if (!empty($userId)) {
             $channels->where('channel_users.user_id', $userId);
@@ -33,8 +33,8 @@ class Channel
 
     public function detail(int $userId, int $channelId)
     {
-        $channel = ChannelModel::with('channelUser.user')
-            ->whereHas('channelUser', function ($q) use ($userId) {
+        $channel = ChannelModel::with('channelUsers.user')
+            ->whereHas('channelUsers', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             })->where('id', $channelId)->first();
 
@@ -92,7 +92,7 @@ class Channel
 
         $this->clearMessages($userId, $channelId);
 
-        $channel->channelUser()->delete();
+        $channel->channelUsers()->delete();
         $channel->delete();
 
         $data['message'] = "Channel deleted successfully.";
