@@ -22,7 +22,7 @@ final class Message
         return $messages;
     }
 
-    public function send(int $userId, int $channelId, array $data)
+    public function send(int $userId, int $channelId, array $data, string $messageFor = null)
     {
         if (!isset($data['body']) && !isset($data['file'])) {
             $error['errors']['message'][] = "The message body or file any one is should be required.";
@@ -41,7 +41,8 @@ final class Message
             'channel_id' => $channel->id,
             'sender_id' => $userId,
             'created_by' => $userId,
-            'body' => isset($data['body']) ? $data['body'] : null
+            'body' => isset($data['body']) ? $data['body'] : null,
+            'message_for' => $messageFor
         ];
 
         if (isset($data['file'])) {

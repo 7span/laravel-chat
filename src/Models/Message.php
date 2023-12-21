@@ -24,6 +24,7 @@ class Message extends Model
         'size',
         'mime_type',
         'type',
+        'message_for',
         'created_by',
         'updated_by',
         'deleted_by'
