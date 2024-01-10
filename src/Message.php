@@ -9,20 +9,21 @@ use SevenSpan\Chat\Events\SendMessage;
 use SevenSpan\Chat\Models\ChannelUser;
 use SevenSpan\Chat\Models\MessageRead;
 use SevenSpan\Chat\Events\DeleteMessage;
+use SevenSpan\Chat\Models\MessageVariable;
 use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
 {
     public function list(int $userId, int $channelId, int $perPage = null)
     {
-        $messages = MessageModel::with(['channel', 'sender'])
+        $messages = MessageModel::with(['channel', 'sender', 'variables'])
             ->where('channel_id', $channelId)
             ->orderBy('id', 'DESC');
         $messages = $perPage ? $messages->paginate($perPage) : $messages->get();
         return $messages;
     }
 
-    public function send(int $userId, int $channelId, array $data)
+    public function send(int $userId, int $channelId, array $data, array $variables = [])
     {
         if (!isset($data['body']) && !isset($data['file'])) {
             $error['errors']['message'][] = "The message body or file any one is should be required.";
@@ -53,6 +54,21 @@ final class Message
         }
 
         $message = MessageModel::create($messageData);
+
+        // Adding the dynamic variables
+        if(count($variables) > 0 ) {
+            foreach($variables as $variable) {
+                if(isset($variable['key']) && isset($variable['meta'])){
+                    $messageVariable = MessageVariable::create([
+                        'message_id' => $message->id,
+                        'key' => $variable['key'],
+                        'meta' => $variable['meta']
+                    ]);
+                }
+            }
+        }
+
+        $message = MessageModel::with(['channel', 'sender', 'variables'])->find($message->id);
 
         broadcast(new SendMessage($channel->slug, $message))->toOthers();
 

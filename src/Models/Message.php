@@ -3,10 +3,10 @@
 namespace SevenSpan\Chat\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
 {
@@ -67,5 +67,10 @@ class Message extends Model
         }
 
         return $url;
+    }
+
+    public function variables()
+    {
+        return $this->hasMany(MessageVariable::class, 'message_id', 'id');
     }
 }
