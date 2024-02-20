@@ -4,33 +4,35 @@ declare(strict_types=1);
 
 namespace SevenSpan\Chat;
 
+use SevenSpan\Chat\Models\Channel;
 use SevenSpan\Chat\Helpers\Helper;
 use SevenSpan\Chat\Events\SendMessage;
 use SevenSpan\Chat\Models\ChannelUser;
 use SevenSpan\Chat\Models\MessageRead;
+use SevenSpan\Chat\Events\UpdateMessage;
 use SevenSpan\Chat\Events\DeleteMessage;
+use SevenSpan\Chat\Models\MessageVariable;
 use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
 {
     public function list(int $userId, int $channelId, int $perPage = null)
     {
-        $messages = MessageModel::with(['channel', 'sender'])
+        $messages = MessageModel::with(['channel', 'sender', 'variables'])
             ->where('channel_id', $channelId)
             ->orderBy('id', 'DESC');
         $messages = $perPage ? $messages->paginate($perPage) : $messages->get();
         return $messages;
     }
 
-    public function send(int $userId, int $channelId, array $data)
+    public function send(int $userId, int $channelId, array $data, array $variables = [])
     {
         if (!isset($data['body']) && !isset($data['file'])) {
             $error['errors']['message'][] = "The message body or file any one is should be required.";
             return $error;
         }
 
-        $channelObj = new Channel();
-        $channel = $channelObj->detail($userId, $channelId);
+        $channel = Channel::where('id', $channelId)->first();
 
         if ($channel == null) {
             $error['errors']['message'][] = "Channel not found.";
@@ -54,6 +56,21 @@ final class Message
 
         $message = MessageModel::create($messageData);
 
+        // Adding the dynamic variables
+        if(count($variables) > 0 ) {
+            foreach($variables as $variable) {
+                if(isset($variable['key']) && isset($variable['meta'])){
+                    $messageVariable = MessageVariable::create([
+                        'message_id' => $message->id,
+                        'key' => $variable['key'],
+                        'meta' => $variable['meta']
+                    ]);
+                }
+            }
+        }
+
+        $message = MessageModel::with(['channel', 'sender', 'variables'])->find($message->id);
+
         broadcast(new SendMessage($channel->slug, $message))->toOthers();
 
         // Added the unread message count
@@ -71,6 +88,64 @@ final class Message
         }
 
         $response['message'] = 'Message send successfully.';
+        $response['data'] = $message;
+        return $response;
+    }
+
+    public function update(int $userId, int $channelId, int $messageId, array $data, array $variables = [])
+    {
+        if (!isset($data['body']) && !isset($data['file'])) {
+            $error['errors']['message'][] = "The message body or file any one is should be required.";
+            return $error;
+        }
+
+        $channel = Channel::where('id', $channelId)->first();
+
+        if ($channel == null) {
+            $error['errors']['message'][] = "Channel not found.";
+            return $error;
+        }
+
+        $message = MessageModel::where('id', $messageId)->first();
+
+        if ($message == null) {
+            $error['errors']['message'][] = "Message not found.";
+            return $error;
+        }
+
+        $messageData = [
+            'body' => isset($data['body']) ? $data['body'] : null
+        ];
+
+        if (isset($data['file'])) {
+            $file = Helper::fileUpload($data['file']);
+            if (isset($file['errors'])) {
+                return $file;
+            }
+            $messageData += $file;
+        }
+
+        $message->variables()->delete();
+        $message->update($messageData);
+
+        // Adding the dynamic variables
+        if(count($variables) > 0 ) {
+            foreach($variables as $variable) {
+                if(isset($variable['key']) && isset($variable['meta'])){
+                    MessageVariable::create([
+                        'message_id' => $message->id,
+                        'key' => $variable['key'],
+                        'meta' => $variable['meta']
+                    ]);
+                }
+            }
+        }
+
+        $message = MessageModel::with(['channel', 'sender', 'variables'])->find($message->id);
+
+        broadcast(new UpdateMessage($channel->slug, $message))->toOthers();
+
+        $response['message'] = 'Message updated successfully.';
         $response['data'] = $message;
         return $response;
     }
@@ -108,6 +183,7 @@ final class Message
 
         broadcast(new DeleteMessage($message->channel->slug, $message))->toOthers();
 
+        $message->variables()->delete();
         $message->delete();
 
         $data['message'] = "Message deleted successfully.";

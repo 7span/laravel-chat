@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SevenSpan\Chat;
 
+use Illuminate\Support\Facades\DB;
 use SevenSpan\Chat\Helpers\Helper;
 use SevenSpan\Chat\Models\Message;
 use SevenSpan\Chat\Models\ChannelUser;
@@ -26,7 +27,7 @@ class Channel
             $channels->whereIn('channels.id', $channelIds);
         }
 
-        $channels->orderBy('channel_users.unread_message_count', 'DESC');
+        $channels->orderBy(DB::raw('DATE(channel_users.updated_at)'), 'DESC');
         $channels = $perPage ? $channels->paginate($perPage) : $channels->get();
         return $channels;
     }
