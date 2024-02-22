@@ -12,6 +12,7 @@ use SevenSpan\Chat\Models\MessageRead;
 use SevenSpan\Chat\Events\UpdateMessage;
 use SevenSpan\Chat\Events\DeleteMessage;
 use SevenSpan\Chat\Models\MessageVariable;
+use SevenSpan\Chat\Channel as ChatChannel;
 use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
@@ -211,7 +212,7 @@ final class Message
 
     public function readAll(int $userId, int $channelId)
     {
-        $channelObj = new Channel();
+        $channelObj = new ChatChannel();
         $channel = $channelObj->detail($userId, $channelId);
 
         if ($channel == null) {
