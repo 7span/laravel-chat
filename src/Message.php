@@ -72,7 +72,9 @@ final class Message
 
         $message = MessageModel::with(['channel', 'sender', 'variables'])->find($message->id);
 
-        broadcast(new SendMessage($channel->slug, $message))->toOthers();
+        if(config('chat.pusher_event_trigger.send_message')){
+            broadcast(new SendMessage($channel->slug, $message))->toOthers();
+        }
 
         // Added the unread message count
         ChannelUser::where('channel_id', $channelId)->where('user_id', '!=', $userId)->increment('unread_message_count', 1, ['updated_by' => $userId]);
