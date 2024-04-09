@@ -73,4 +73,22 @@ class Message extends Model
     {
         return $this->hasMany(MessageVariable::class, 'message_id', 'id');
     }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        if(config('chat.encrypt_message')) {
+            return [
+                'body' => 'encrypted',
+            ];
+        }else {
+            return [
+                'body' => 'string',
+            ];
+        }
+    }
 }
