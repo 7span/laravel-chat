@@ -20,6 +20,7 @@ Before you get started, make sure you have the following prerequisites installed
 - Composer >= 2.0
 - Laravel >= 8.1
 - AWS API credentials (Optional)
+- Pusher
 
 ## <span id="features">**Features**</span>
 
@@ -58,6 +59,12 @@ After publishing the migration and configuring, create the required tables for t
 
 ```
 php artisan migrate
+```
+
+To configure message body encryption add these key on `.env` file.
+
+```
+CHAT_ENCRYPT_MESSAGE=true #boolen
 ```
 
 ## Usage
