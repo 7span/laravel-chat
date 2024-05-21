@@ -22,12 +22,6 @@ class ChannelUser extends Model
         'deleted_by',
     ];
 
-    protected $casts = [
-        'created_at' => 'timestamp',
-        'updated_at' => 'timestamp',
-        'deleted_at' => 'timestamp'
-    ];
-
     protected $hidden = ['deleted_at'];
 
     public $queryable = [
@@ -37,6 +31,15 @@ class ChannelUser extends Model
     protected $relationship = [];
 
     protected $scopedFilters = [];
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'timestamp',
+            'updated_at' => 'timestamp',
+            'deleted_at' => 'timestamp'
+        ];
+    }
 
     public function user()
     {

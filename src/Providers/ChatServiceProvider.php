@@ -50,7 +50,7 @@ class ChatServiceProvider extends ServiceProvider
     {
         $mandatoryAttributes = config('chat');
         foreach ($mandatoryAttributes as $key => $value) {
-            if (empty($value)) {
+            if (!isset($value)) {
                 throw InvalidConfig::couldNotFindConfig($key);
             }
         }

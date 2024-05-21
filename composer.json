@@ -34,7 +34,7 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.1 || ^8.2",
         "aws/aws-sdk-php": "^3.283",
         "league/flysystem-aws-s3-v3": "^3.0",
         "spatie/laravel-sluggable": "^3.5"
