@@ -6,7 +6,9 @@ namespace SevenSpan\Chat\Helpers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class Helper
 {
@@ -61,6 +63,16 @@ class Helper
         } elseif ($disk != 'local') {
             Storage::disk('s3')->delete($path . '/' . $fileName);
             return true;
+        }
+    }
+
+    public static function isEncrypted($value)
+    {
+        try {
+            Crypt::decryptString($value);
+            return true;
+        } catch (DecryptException $e) {
+            return false;
         }
     }
 }
