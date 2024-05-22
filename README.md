@@ -64,7 +64,7 @@ php artisan migrate
 To configure message body encryption add these key on `.env` file.
 
 ```
-CHAT_ENCRYPT_MESSAGE=true #boolen
+CHAT_ENCRYPT_MESSAGE=true #boolean
 ```
 
 ## Usage

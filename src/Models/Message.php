@@ -3,9 +3,12 @@
 namespace SevenSpan\Chat\Models;
 
 use App\Models\User;
+use SevenSpan\Chat\Helpers\Helper;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
@@ -72,5 +75,33 @@ class Message extends Model
     public function variables()
     {
         return $this->hasMany(MessageVariable::class, 'message_id', 'id');
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        if(config('chat.encrypt_message')) {
+            return [
+                'body' => 'encrypted',
+            ];
+        }else {
+            return [
+                'body' => 'string',
+            ];
+        }
+    }
+
+   
+    protected function body(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                return Helper::isEncrypted($value) ? Crypt::decryptString($value) : $value;
+            }
+        );
     }
 }
