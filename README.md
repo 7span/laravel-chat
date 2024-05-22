@@ -16,9 +16,9 @@ The Laravel Chat package simplifies one-to-one and group chat integration facili
 
 Before you get started, make sure you have the following prerequisites installed:
 
-- PHP >= 8.1
+- PHP >= 8.1 (Support 8.2)
 - Composer >= 2.0
-- Laravel >= 8.1
+- Laravel >= 8.1 (Supports L10 and L11)
 - AWS API credentials (Optional)
 - Pusher
 
@@ -30,6 +30,7 @@ Before you get started, make sure you have the following prerequisites installed
 - Read and Unread Message Count Management
 - Document Upload Support for Local Storage
 - Document Upload Support for AWS S3 Storage
+- Message body encryption and decryption
 
 ## <span id="installation">**Installation**</span>
 
