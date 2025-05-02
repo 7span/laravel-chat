@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Laravel Chat
   text: The all-in-one Laravel chat package
-  tagline: One-to-one and group messaging with file sharing, message tracking, and secure storage
+  tagline: One-to-one messaging with file sharing, message tracking, and secure storage
   image:
     src: /hero.svg
     alt: Laravel Chat Hero

@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Laravel Chat",
   description:
-    "A comprehensive Laravel chat package for one-to-one and group chat integration with document sharing capabilities",
+    "A comprehensive Laravel chat package for one-to-one chat integration with document sharing capabilities",
   base: "/open-source/laravel-chat/",
   head: [["link", { rel: "icon", href: "/logo.svg" }]],
   srcDir: "src",
