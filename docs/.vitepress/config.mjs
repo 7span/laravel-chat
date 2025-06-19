@@ -4,8 +4,7 @@ export default defineConfig({
   title: "Laravel Chat",
   description:
     "A comprehensive Laravel chat package for one-to-one chat integration with document sharing capabilities",
-  base: "/open-source/laravel-chat/",
-  head: [["link", { rel: "icon", href: "/logo.svg" }]],
+  head: [["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }]],
   srcDir: "src",
   themeConfig: {
     siteTitle: "Laravel Chat",
@@ -27,27 +26,32 @@ export default defineConfig({
         ],
       },
       {
-        text: "Getting Started", 
+        text: "Getting Started",
         items: [
           {
-            text: "Installation", link: "/getting-started/installation",
+            text: "Installation",
+            link: "/getting-started/installation",
           },
           {
-            text: "Configuration", link: "/getting-started/configuration",
+            text: "Configuration",
+            link: "/getting-started/configuration",
           },
-        ]
+        ],
       },
       {
         text: "Usage",
         items: [
           {
-            text: "Channel", link: "/usage/channel",
+            text: "Channel",
+            link: "/usage/channel",
           },
           {
-            text: "Message", link: "/usage/message",
+            text: "Message",
+            link: "/usage/message",
           },
           {
-            text: "User", link: "/usage/user",
+            text: "User",
+            link: "/usage/user",
           },
         ],
       },
