@@ -1,6 +1,6 @@
 # Laravel Chat
 
-The Laravel Chat package simplifies one-to-one and group chat integration facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage
+The Laravel Chat package simplifies one-to-one chat integration facilitates document sharing within chats, manages read and unread message counts, and supports document uploads to both local and AWS S3 storage
 
 ## Index
 
@@ -25,7 +25,6 @@ Before you get started, make sure you have the following prerequisites installed
 ## <span id="features">**Features**</span>
 
 - One-to-One Chat Integration
-- Group Chat Integration
 - Document Sharing within Chats
 - Read and Unread Message Count Management
 - Document Upload Support for Local Storage
@@ -81,9 +80,10 @@ Use the `list` method to get all channels.
 use SevenSpan\Chat\Facades\Channel;
 
 // $userId = 12; (Required)
+// $channelIds = [1, 2, 3]; (Optional)
 // $perPage = 10; (Optional)
 
-Channel::list($userId, $perPage);
+Channel::list($userId, $channelIds, $perPage);
 ```
 
 ### 2. Detail of Channel

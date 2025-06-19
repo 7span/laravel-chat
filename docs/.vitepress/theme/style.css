@@ -1,0 +1,19 @@
+:root {
+    --vp-c-brand-1: #ff6467;
+    --vp-c-brand-2: #ffa2a2;
+    --vp-button-brand-bg: #e7000b;
+    --vp-button-brand-hover-bg: #c10007;
+  
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: -webkit-linear-gradient(
+      120deg,
+      #ff6467 30%,
+      #c10007
+    );
+    --vp-home-hero-image-background-image: linear-gradient(
+      -45deg,
+      #ff6467 50%,
+      #c10007 50%
+    );
+    --vp-home-hero-image-filter: blur(68px);
+  }
