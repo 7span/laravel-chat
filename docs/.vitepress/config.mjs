@@ -5,6 +5,7 @@ export default defineConfig({
   description:
     "A comprehensive Laravel chat package for one-to-one chat integration with document sharing capabilities",
   head: [["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }]],
+  base: '/open-source/laravel-chat/',
   srcDir: "src",
   themeConfig: {
     siteTitle: "Laravel Chat",
