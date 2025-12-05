@@ -17,7 +17,7 @@ use SevenSpan\Chat\Models\Message as MessageModel;
 
 final class Message
 {
-    public function list(int $userId, int $channelId, int $perPage = null)
+    public function list(int $userId, int $channelId, ?int $perPage = null)
     {
         $messages = MessageModel::with(['channel', 'sender', 'variables'])
             ->where('channel_id', $channelId)

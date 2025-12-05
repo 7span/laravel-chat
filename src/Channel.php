@@ -14,7 +14,7 @@ use SevenSpan\Chat\Models\Channel as ChannelModel;
 
 class Channel
 {
-    public function list(int $userId = null, array $channelIds = [], int $perPage = null)
+    public function list(?int $userId = null, array $channelIds = [], ?int $perPage = null)
     {
         $channels = ChannelModel::select('channels.id', 'name', 'channel_id', 'channels.slug', 'unread_message_count')
             ->join('channel_users', 'channels.id', '=', 'channel_users.channel_id')->with('channelUsers.user');
